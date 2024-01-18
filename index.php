@@ -90,10 +90,26 @@ if (isset($_POST['download1'])) {
 <pre>
     <?php
     // print_r(makeData($array, 1, 1, 3));
+
+    $timestamp_in_nanoseconds = 1705467139298720300;
+
+    // Convert nanoseconds to seconds
+    $timestamp_in_seconds = $timestamp_in_nanoseconds / 1000000000;
+
+    $addGmt7 = 6 * 60 * 60;
+
+    // Use the date function to format the timestamp
+    $formatted_date = date("Y-m-d H:i:s", $timestamp_in_seconds + $addGmt7);
+
+    echo $formatted_date;
+    echo "<br>";
+
+    echo date("Y-m-d H:i:s", filectime("gyroscope.csv") + $addGmt7);
+
     ?>
 </pre>
 
 
-<form method="post">
+<!-- <form method="post">
     <input type="submit" name="download1" value="download" />
-</form>
+</form> -->
