@@ -4,7 +4,6 @@ require 'vendor/autoload.php';
 $ffprobe = FFMpeg\FFProbe::create(
     array(
         'ffmpeg.binaries'  => 'ffmpeg/bin/ffmpeg',
-        'ffprobe.binaries' => 'ffmpeg/bin/ffprobe',
         'timeout'          => 3600, // The timeout for the underlying process
         'ffmpeg.threads'   => 12,   // The number of threads that FFMpeg should use
     )
@@ -194,8 +193,11 @@ if (isset($_POST['download1'])) {
 
     var_dump('C:\xampp\htdocs\gyroflowcsvdivider\testfile');
     var_dump(scandir('D:\testfile\\'));
+    var_dump(scandir('../ffmpeg/bin/'));
 
+    var_dump(getVideoDuration('D:\testfile\00383.Mts', $ffprobe));
 
+    // tanda file terakhir
     ?>
 
 </pre>
