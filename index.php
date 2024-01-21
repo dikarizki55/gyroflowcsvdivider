@@ -4,6 +4,7 @@ require 'vendor/autoload.php';
 $ffprobe = FFMpeg\FFProbe::create(
     array(
         'ffmpeg.binaries'  => 'ffmpeg/bin/ffmpeg',
+        'ffprobe.binaries'  => 'ffmpeg/bin/ffprobe',
         'timeout'          => 3600, // The timeout for the underlying process
         'ffmpeg.threads'   => 12,   // The number of threads that FFMpeg should use
     )
@@ -98,7 +99,11 @@ function getStartSeconds($datacsv, $video)
 
 function sliceScandir(string $inputname)
 {
-    return array_slice(scandir($_POST[$inputname]), 2, count(scandir($_POST[$inputname])) - 2);
+    if (is_array(scandir($_POST[$inputname]))) {
+        return array_slice(scandir($_POST[$inputname]), 2, count(scandir($_POST[$inputname])) - 2);
+    } else {
+        var_dump("unvalid folder");
+    }
 }
 
 function arrayfilepath($arrayname)
@@ -144,6 +149,9 @@ if (isset($_POST['download1'])) {
         }
     }
 
+    foreach ($validkey as $i) {
+        makeFileCsv(makeData(arrayfilepath('video')[$i], $ffprobe), $listcsv[$i]);
+    }
     unlink("baru.zip");
     $archiveFileName = 'baru.zip';
     $zip = new ZipArchive;
@@ -168,7 +176,7 @@ if (isset($_POST['download1'])) {
     foreach ($listcsv as $filecsv) {
         unlink("$filecsv.csv");
     }
-    header('Location: ' . 'baru.zip');
+    echo "<a href='baru.zip'>Download Link</a>";
 }
 
 ?>
